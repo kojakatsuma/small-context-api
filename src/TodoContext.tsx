@@ -1,6 +1,6 @@
-import React, { createContext, useState, useContext } from 'react'
-
-type Todo = { name: string; dueDate: Date }
+import React, { createContext, useState, useContext, useEffect } from 'react'
+import { useTodosGlobal } from './reducer'
+import { Todo } from './type'
 
 const TodoContext: React.Context<Partial<{
   todos: Todo[]
@@ -10,12 +10,13 @@ const TodoContext: React.Context<Partial<{
 export const TodoProvider: React.FC<{
   children: React.ReactNode
 }> = ({ children }) => {
-  const todosMock = [
-    { name: '掃除', dueDate: new Date('2021-07-14T00:00:00') },
-    { name: '皿洗い', dueDate: new Date('2020-07-13T00:00:00') },
-    { name: '犬を洗う', dueDate: new Date('2020-07-15T00:00:00') },
-  ]
-  const [todos, setTodos] = useState<Todo[]>(todosMock)
+  const initialTodo = useTodosGlobal()
+  const [todos, setTodos] = useState<Todo[]>(initialTodo)
+  
+  useEffect(() => {
+    setTodos(initialTodo)
+  }, [initialTodo])
+
   return (
     <TodoContext.Provider value={{ todos, setTodos }}>
       {children}

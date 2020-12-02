@@ -3,6 +3,7 @@ import { Todo } from './Todo'
 import { useTodos } from './TodoContext'
 import { TodoDeleteButton } from './TodoDeleteButton'
 import { TodoForm } from './TodoForm'
+import { TodoSaveButton } from './TodoSaveButton'
 
 export const TodoList = () => {
   const { todos } = useTodos()
@@ -17,6 +18,7 @@ export const TodoList = () => {
         </div>
       ))}
       <TodoForm />
+      <TodoSaveButton />
     </>
   )
 }
