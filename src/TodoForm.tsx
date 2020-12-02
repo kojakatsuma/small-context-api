@@ -1,10 +1,20 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useCallback, useState } from 'react'
+import { useTodos } from './TodoContext'
 
-export const TodoForm: React.FC<{
-  createTodo: (name: string, dueDate: string) => void
-}> = ({ createTodo }) => {
+const useCreateTodo = () => {
+  const { todos, setTodos } = useTodos()
+  return useCallback(
+    (name: string, dueDate: string) => {
+      setTodos(todos.concat({ name, dueDate: new Date(dueDate) }))
+    },
+    [todos, setTodos],
+  )
+}
+
+export const TodoForm: React.FC<{}> = () => {
   const [name, setName] = useState('')
   const [dueDate, setDueDate] = useState('')
+  const createTodo = useCreateTodo()
   const changeName = (e: ChangeEvent<HTMLInputElement>) =>
     setName(e.target.value)
   const changeDueDate = (e: ChangeEvent<HTMLInputElement>) =>
